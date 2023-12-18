@@ -1,0 +1,180 @@
+body {
+    margin: 0;
+    background-color: #fafafa;
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23b9b9b9' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+div {
+    font-family: 华文黑体;
+}
+
+.topbar {
+    position: fixed;
+    background: linear-gradient(135deg, #292a3a, #536976);
+    width: 100%;
+    height: 15%;
+    min-height: 70px;
+    max-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.topbar-item {
+    color: white;
+    width: auto;
+    height: 80%;
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.topbar-right {
+    color: white;
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+}
+
+.topbar-right-item {
+    cursor: pointer;
+    padding: 20px;
+    width: auto;
+    font-size: 20px;
+}
+
+.topbar-right-item:hover {
+    background-color: rgba(160, 160, 160, 0.175);
+}
+
+.title {
+    font-size: 30px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.subtitle {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.empty {
+    min-height: 100px;
+}
+
+.infobox {
+    margin-top: 50px;
+    width: 90%;
+    margin-left: 5%;
+}
+
+.info-title-box {
+    background-color: #292a3a;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 8vh;
+    font-size: 25px;
+}
+
+.city-choose-box {
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.city {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    /*border: #292a3a 2px solid;*/
+    height: 100%;
+    width: 20%;
+    background-image: url(../img/beijing.jpg);
+    background-size: cover;
+}
+
+.cityname {
+    font-size: 35px;
+}
+
+.citydesc {
+    font-size: 20px;
+}
+
+.city-img {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    justify-items: flex-start;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #5369763f, #292a3a) no-repeat left bottom;
+    background-size: 100% 0px;
+    transition-duration: 0.4s;
+    color: white;
+    cursor: pointer;
+}
+
+.city-info {
+    margin-left: 10px;
+    pointer-events: none;
+    transition-duration: 0.4s;
+}
+
+.citydesc {
+    margin-bottom: 10px;
+}
+
+.img-sh {
+    background-image: url(../img/shanghai.jpg);
+}
+
+.img-cd {
+    background-image: url(../img/chengdu.jpg);
+}
+
+.img-xa {
+    background-image: url(../img/xian.jpg);
+}
+
+.img-gz {
+    background-image: url(../img/guangzhou.jpg);
+}
+
+.checkbar {
+    margin-top: 20px;
+    width: 90%;
+    margin-left: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkBTN {
+    font-size: 20px;
+    height: 40px;
+    width: 120px;
+    margin-left: 20px;
+    background: linear-gradient(135deg, #292a3a, #536976);
+    color: white;
+    border: 0;
+    cursor: pointer;;
+}
+
+.checkBTN:hover {
+    background: linear-gradient(135deg, #292a3a80, #53697680);
+}
+
+.checkSelect {
+    font-size: 20px;
+    height: 40px;
+    width: 140px;
+}
