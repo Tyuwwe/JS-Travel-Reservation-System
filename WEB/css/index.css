@@ -161,20 +161,27 @@ div {
 .checkBTN {
     font-size: 20px;
     height: 40px;
-    width: 120px;
+    width: 200px;
     margin-left: 20px;
     background: linear-gradient(135deg, #292a3a, #536976);
     color: white;
     border: 0;
-    cursor: pointer;;
+    transition-duration: 0.4s;
+    cursor: pointer;
+
 }
 
 .checkBTN:hover {
-    background: linear-gradient(135deg, #292a3a80, #53697680);
+    background: linear-gradient(135deg, #292a3ac0, #536976c0);
 }
 
 .checkSelect {
     font-size: 20px;
     height: 40px;
     width: 140px;
+}
+
+.selectinfo {
+    font-size: 20px;
+
 }

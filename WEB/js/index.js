@@ -24,3 +24,21 @@ for(i = 0; i < city_pick.length; i++) {
         }
     })
 }
+
+function checkCanSubmit() {
+    if(document.getElementsByClassName("checkSelect")[0].value == "empty") {
+        document.getElementsByClassName("checkBTN")[0].innerText = "请选择场景";
+        document.getElementsByClassName("checkBTN")[0].style.background = "red";
+    }
+    else if(!choosedCityStr) {
+        document.getElementsByClassName("checkBTN")[0].innerText = "请选择城市";
+        document.getElementsByClassName("checkBTN")[0].style.background = "red";
+    }
+    else {
+        open("./pages/" + document.getElementsByClassName("checkSelect")[0].value + ".html?" + choosedCityStr);
+    }
+}
+
+document.getElementsByClassName("checkBTN")[0].addEventListener('click', () => {
+    checkCanSubmit();
+})
