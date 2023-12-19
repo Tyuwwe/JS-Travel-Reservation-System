@@ -32,7 +32,7 @@ CREATE TABLE BUS (
 -- 创建CUSTOMERS表
 CREATE TABLE CUSTOMERS (
     custName VARCHAR(255) NOT NULL,
-    custID INT NOT NULL,
+    custID SERIAL,
     PRIMARY KEY (custName)
 );
 
