@@ -35,7 +35,7 @@ function checkCanSubmit() {
         document.getElementsByClassName("checkBTN")[0].style.background = "red";
     }
     else {
-        open("./pages/" + document.getElementsByClassName("checkSelect")[0].value + ".html?" + choosedCityStr);
+        window.open("./pages/" + document.getElementsByClassName("checkSelect")[0].value + ".html?" + choosedCityStr, '_self');
     }
 }
 

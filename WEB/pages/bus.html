@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="./css/index.css">
+<link rel="stylesheet" type="text/css" href="../css/index.css">
+<link rel="stylesheet" type="text/css" href="../css/flight.css">
 <title>Travel Reservation System | TRS</title>
 </head>
 <body>
@@ -12,51 +13,29 @@
             <div class="subtitle">By Zeki Luan</div>
         </div>
         <div class="topbar-right">
-            <a class="topbar-right-item">航班系统</a>
-            <a class="topbar-right-item">巴士系统</a>
-            <a class="topbar-right-item">酒店系统</a>
+            <a class="topbar-right-item" href="">查询预定</a>
+            <a class="topbar-right-item" href="../index.html">返回主页</a>
         </div>
     </div>
     <div class="empty"></div>
-    <div class="infobox">
-        <div class="info-title-box">选择出发城市</div>
-        <div class="city-choose-box">
-            <div class="city img-bg">
-                <div class="city-img">
-                    <div class="city-info citydesc">Beijing</div>
-                    <div class="city-info cityname">北京</div>
-                </div>
-            </div>
-
-            <div class="city img-sh">
-                <div class="city-img">
-                    <div class="city-info citydesc">Shanghai</div>
-                    <div class="city-info cityname">上海</div>
-                </div>
-            </div>
-
-            <div class="city img-cd">
-                <div class="city-img">
-                    <div class="city-info citydesc">Chengdu</div>
-                    <div class="city-info cityname">成都</div>
-                </div>
-            </div>
-            
-            <div class="city img-xa">
-                <div class="city-img">
-                    <div class="city-info citydesc">Xi'an</div>
-                    <div class="city-info cityname">西安</div>
-                </div>
-            </div>
-            
-            <div class="city img-gz">
-                <div class="city-img">
-                    <div class="city-info citydesc">Guangzhou</div>
-                    <div class="city-info cityname">广州</div>
-                </div>
+    <div class="infobox flight-box">
+        <div class="info-title-box">可选巴士列表</div>
+        <div id="fl" class="flightlist">
+            <div class="flightlist-info flightlist-top">
+                <div class="flightlist-topitem">ID</div>
+                <div class="flightlist-topitem">地址</div>
+                <div class="flightlist-topitem">巴士数量</div>
+                <div class="flightlist-topitem">空闲巴士数</div>
+                <div class="flightlist-topitem">票价</div>
             </div>
         </div>
     </div>
+    <div class="checkbar">
+        <div class="selectinfo">选择航班并输入姓名后，点击右侧预定：</div>
+        <input class="userName" type="text" maxlength="20" placeholder="输入预定乘客名">
+        <button class="checkBTN">确认预定</button>
+    </div>
 </body>
-<script src="./js/index.js"></script>
+<script src="../js/general.js"></script>
+<script src="../js/bus.js"></script>
 </html>
