@@ -1,5 +1,5 @@
 # Travel Reservation System | TRS
-A simple travel reservation system built by Flask&PostgreSQL
+A simple travel reservation system built on Flask&PostgreSQL
 
 ###  File Tree:
 
