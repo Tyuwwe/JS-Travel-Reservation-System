@@ -143,6 +143,34 @@ def create_flight_reservation():
 
     return jsonify({'message': 'Reservation created successfully'}), 201
 
+# 删除预定信息的路由
+@app.route('/reservations/<int:resvkey>', methods=['DELETE'])
+def delete_reservation(resvkey):
+    reservation = Reservation.query.get(resvkey)
+    if reservation is None:
+        abort(404, description="Reservation not found")
+
+    # 根据预定类型更新相关数据
+    if reservation.resvtype == 1:  # 航班
+        flight = Flight.query.get(reservation.flightid)
+        if flight:
+            flight.numavail += 1
+    elif reservation.resvtype == 2:  # 酒店
+        hotel = Hotel.query.filter_by(location=reservation.hotellocation).first()
+        if hotel:
+            hotel.numavail += 1
+    elif reservation.resvtype == 3:  # 巴士
+        bus = Bus.query.get(reservation.busid)
+        if bus:
+            bus.numavail += 1
+
+    # 删除预定记录
+    db.session.delete(reservation)
+    db.session.commit()
+
+    return jsonify({'message': 'Reservation deleted successfully'}), 200
+
+
 # 获取巴士信息
 @app.route('/bus/<bus_location>', methods=['GET'])
 def get_bus_by_location(bus_location):
@@ -295,7 +323,7 @@ def create_hotel_reservation():
         db.session.commit()
 
     # 检查宾馆是否存在
-    hotel = Hotel.query.filter_by(hotellocation=hotellocation)
+    hotel = Hotel.query.filter_by(location=hotellocation).first()
     if hotel is None:
         abort(404, description='Bus not found')
 
@@ -333,7 +361,7 @@ def get_reservations_by_username():
     # 解析数据
     custname = data['custname']
 
-    # 查询预定信息
+    # 查询用户的所有预定信息
     reservations = Reservation.query.filter_by(custname=custname).all()
 
     # 将预定信息转换为JSON格式
@@ -347,42 +375,79 @@ def get_reservations_by_username():
         }
         reservations_data.append(reservation_data)
 
-    # 检查额外功能
-    additional_info = check_additional_functionality(reservations)
-    reservations_data.append({'additional_info': additional_info})
+    # 检查路线是否完整
+    is_route_complete = check_additional_functionality(reservations)
+    reservations_data.append({'is_route_complete': is_route_complete})
 
     # 返回JSON响应
     return jsonify(reservations_data)
 
-
 def check_additional_functionality(reservations):
-    # 获取所有航班的起点和终点
-    flights = Flight.query.all()
-    endpoints = set()
-    startpoints = set()
+    flight_reservations = [r for r in reservations if r.resvtype == 1]
+    hotel_reservations = [r for r in reservations if r.resvtype == 2]
+    bus_reservations = [r for r in reservations if r.resvtype == 3]
 
-    for flight in flights:
-        endpoints.add(flight.arivcity)
-        startpoints.add(flight.fromcity)
+    if len(flight_reservations) == 0:
+        return False
 
-    # 检查航班是否能够组成环
-    flight_cities = set()
-    for reservation in reservations:
-        if reservation.resvtype == 1:
-            flight_cities.add(get_reservation_value(reservation))
+    # 用户只预定了航班的情况
+    if len(hotel_reservations) == 0 and len(bus_reservations) == 0:
+        return check_flights_complete_route(flight_reservations)
 
-    if len(flight_cities) == len(endpoints) and len(endpoints) == len(startpoints):
-        return True
+    # 用户预定了航班以及酒店或巴士的情况
+    if len(flight_reservations) == 1:
+        return check_single_flight_with_accommodations(flight_reservations[0], hotel_reservations, bus_reservations)
 
-    # 检查是否同时预定了航线终点的酒店和大巴
-    hotel_and_bus_endpoints = set()
-    for reservation in reservations:
-        if reservation.resvtype in [2, 3]:
-            value = get_reservation_value(reservation)
-            if value in endpoints:
-                hotel_and_bus_endpoints.add(value)
+    return False
 
-    return len(hotel_and_bus_endpoints) > 0
+def check_flights_complete_route(flights):
+    # 构建航班的起点到终点的映射
+    flight_map = {}
+    for flight_reservation in flights:
+        flight = Flight.query.get(flight_reservation.flightid)
+        if flight:
+            flight_map[flight.fromcity] = flight.arivcity
+
+    # 检查是否可以形成闭环
+    if not flight_map:
+        return False
+
+    start_city = next(iter(flight_map))
+    current_city = start_city
+
+    for _ in range(len(flight_map)):
+        current_city = flight_map.get(current_city)
+        if not current_city:
+            return False  # 如果某个城市没有下一个目的地，则不是闭环
+        if current_city == start_city:
+            return True  # 如果回到起点，则形成了闭环
+
+    return False
+
+
+
+def check_single_flight_with_accommodations(flight_reservation, hotel_reservations, bus_reservations):
+    # 获取与预订关联的航班
+    flight = Flight.query.get(flight_reservation.flightid)
+    if not flight:
+        return False  # 如果找不到航班，则返回False
+
+    flight_destination = flight.arivcity
+
+    # 获取与酒店预订关联的酒店
+    hotels_at_destination = [Hotel.query.get(h.hotellocation) for h in hotel_reservations]
+
+    # 检查是否预定了航班终点地址的酒店
+    hotel_at_destination = any(hotel.location == flight_destination for hotel in hotels_at_destination if hotel)
+
+    # 获取与巴士预订关联的巴士
+    buses_at_destination = [Bus.query.get(b.busid) for b in bus_reservations]
+
+    # 检查是否预定了航班终点地址的巴士
+    bus_at_destination = any(bus.location == flight_destination for bus in buses_at_destination if bus)
+
+    return hotel_at_destination and bus_at_destination
+
 
 
 def get_reservation_type(resvtype):

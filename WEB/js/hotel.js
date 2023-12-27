@@ -61,7 +61,7 @@ function reservation() {
         },
         body: JSON.stringify({
             custname : inputname,
-            hotellocation : selectedFlightID
+            hotel_location : selectedFlightID
         })
         })
         .then(response => response.json())
@@ -74,9 +74,6 @@ function reservation() {
                 getbus();
             }
         })
-        .catch((error) => {
-            console.error('请求错误:', error);
-        });
 }
 
 function addEvent() {
